@@ -95,29 +95,62 @@ fig = fig + 1;
 median_hr = [median_hr_1; median_hr_2; median_hr_3; median_hr_4; median_hr_5];
 median_hr_bar = create_bar(median_hr, fig, ...
     ["A0NVTRV","A36HR6Y","A1K5DRI","A1ZJ41O","A7EM0B6"], ...
-    'Median values of heart rate per observation', dims, [0 90], '%.0f');
+    'Median values of heart rate per observation', dims, [0 90], '%.0f', ...
+    'User ID', 'Heart Rate');
 
 fig = fig + 1;
 median_steps = [median_steps_1; median_steps_2; median_steps_3; median_steps_4; median_steps_5];
 median_steps_bar = create_bar(median_steps, fig, ...
     ["A0NVTRV","A36HR6Y","A1K5DRI","A1ZJ41O","A7EM0B6"], ...
-    'Median values of steps per day', dims, [0 8000], '%.0f');
+    'Median values of steps per day', dims, [0 8000], '%.0f', ...
+    'User ID', 'Number of Steps');
 
 fig = fig + 1;
 median_sleep = [median_sleep_1; median_sleep_2; median_sleep_3; median_sleep_4; median_sleep_5];
 median_sleep_bar = create_bar(median_sleep, fig, ...
     ["A0NVTRV","A36HR6Y","A1K5DRI","A1ZJ41O","A7EM0B6"], ...
-    'Median values of hours of sleep per day', dims, [0 8], '%.2f');
+    'Median values of hours of sleep per day', dims, [0 8], '%.2f', ...
+    'User ID', 'Hours of sleep');
+
+fig = fig + 1;
+iqr_hr = [iqr_hr_1; iqr_hr_2; iqr_hr_3; iqr_hr_4; iqr_hr_5];
+iqr_hr_bar = create_bar(iqr_hr, fig, ...
+    ["A0NVTRV","A36HR6Y","A1K5DRI","A1ZJ41O","A7EM0B6"], ...
+    'IQR values of heart rate per observation', dims, [0 20], '%.0f', ...
+    'User ID', 'Heart Rate');
+
+fig = fig + 1;
+iqr_steps = [iqr_steps_1; iqr_steps_2; iqr_steps_3; iqr_steps_4; iqr_steps_5];
+iqr_steps_bar = create_bar(iqr_steps, fig, ...
+    ["A0NVTRV","A36HR6Y","A1K5DRI","A1ZJ41O","A7EM0B6"], ...
+    'IQR values of steps per day', dims, [0 5000], '%.0f', ...
+    'User ID', 'Number of Steps');
+
+fig = fig + 1;
+iqr_sleep = [iqr_sleep_1; iqr_sleep_2; iqr_sleep_3; iqr_sleep_4; iqr_sleep_5];
+iqr_sleep_bar = create_bar(iqr_sleep, fig, ...
+    ["A0NVTRV","A36HR6Y","A1K5DRI","A1ZJ41O","A7EM0B6"], ...
+    'IQR values of hours of sleep per day', dims, [0 7], '%.2f', ...
+    'User ID', 'Hours of sleep');
+
+%% Calculate correlation
+correlation_1 = create_correlation(hr_1, steps_1_temp);
+correlation_2 = create_correlation(hr_2, steps_2_temp);
+correlation_3 = create_correlation(hr_3, steps_3_temp);
+correlation_4 = create_correlation(hr_4, steps_4_temp);
+correlation_5 = create_correlation(hr_5, steps_5_temp);
 
 %% Function declarations
 
-function new_bar = create_bar(inputs, figure_number, xtick, title_name, dimensions, ylims, declim)
+function new_bar = create_bar(inputs, figure_number, xtick, title_name, dimensions, ylims, declim, xlab, ylab)
     figure(figure_number)
     new_bar = bar(inputs);
     title(title_name)
     set(gcf,'position',dimensions)
     set(gca,'xticklabel',xtick)
     ylim(ylims)
+    xlabel(xlab)
+    ylabel(ylab)
 
     for k1 = 1:size(inputs,2)
     ctr(k1,:) = bsxfun(@plus, new_bar(1).XData, new_bar(k1).XOffset');  
@@ -125,6 +158,7 @@ function new_bar = create_bar(inputs, figure_number, xtick, title_name, dimensio
     text(ctr(k1,:), ydt(k1,:), sprintfc(declim, ydt(k1,:)), 'HorizontalAlignment','center', 'VerticalAlignment','bottom', 'FontSize',8, 'Color','b')
     end
 end
+
 
 function combined_set = combine_times(inputs, time_section, input_section)
     input = [];
@@ -150,4 +184,14 @@ function combined_set = combine_times(inputs, time_section, input_section)
     end
 
     combined_set = table(time', input');
+end
+
+
+function correlation = create_correlation(heartRate, steps)
+    rowsHeartRate = ismember(heartRate.datetime, steps.datetime);
+    rowsSteps = ismember(steps.datetime, heartRate.datetime);
+    commonHeartRate = heartRate(rowsHeartRate,:).heartrate;
+    commonSteps = steps(rowsSteps,:).steps;
+
+    correlation = corrcoef(commonHeartRate, commonSteps);
 end
