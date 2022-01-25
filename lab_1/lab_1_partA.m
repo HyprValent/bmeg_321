@@ -65,6 +65,7 @@ median_steps_3 = median(steps_3.(2));
 median_steps_4 = median(steps_4.(2));
 median_steps_5 = median(steps_5.(2));
 
+% Remember to divide sleep values by 3600.0 to convert seconds to hours
 median_sleep_1 = double(median(sleep_1.(2)) / 3600.0);
 median_sleep_2 = double(median(sleep_2.(2)) / 3600.0);
 median_sleep_3 = double(median(sleep_3.(2)) / 3600.0);
