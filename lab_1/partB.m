@@ -1,3 +1,5 @@
+%% Part B
+
 %% 1. Input arguments of audiorecorder
 
 % The input arguments of audiorecorder are as follows:
@@ -54,3 +56,34 @@ title("Sample Speech Downsampled");
 % This means that there is a loss of information when we choose to
 % downsample, meaning that a lot of the voice going through the recording
 % is cut out, causing the muffled/quieter output.
+
+%% Part C
+load("output\partB_env.mat") % Use prerecorded files
+
+%% 1. FFT function
+
+% The Fast Fourier Transform (FFT) function is used to find the frequency
+% component of a noisy signal from its time domain. The input and output of
+% the FFT function are discrete, much like the Discrete Fourier Transform
+% (DFT) counterpart. This means that the frequency domain is also going to
+% be sampled discretely, much like the time domain when it was recorded.
+% Looking into the function further, it becomes evident that FFT is moreso
+% a more efficient way of using DFT. Whereas in class, DFT is utilized by
+% applying the defintion to each individual sample linearily across the
+% length of the signal, FFT does so by applying said definition in chunks,
+% usually in an attempt to be more efficient.
+
+%% 2. Compute the FFt of audio recording
+speechFFT = fft(sampleSpeech);
+freqAxis = (0:length(sampleSpeech)-1) * 44100 / length(sampleSpeech);
+figure(3)
+plot(freqAxis, speechFFT);
+
+%% 3. Plot only the real component of FFT
+realFFT = real(speechFFT);
+figure(4)
+plot(normalize(freqAxis, 'range'), realFFT);
+
+%% Part D
+
+%%
