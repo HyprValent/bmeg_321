@@ -29,7 +29,9 @@ sampleSpeech = getaudiodata(recObj);
 timeAxis = (0:length(sampleSpeech)-1)*3 / length(sampleSpeech);
 figure(1)
 plot(timeAxis, sampleSpeech);
-title("Sample Speech");
+title("Plot of Audio Recording Amplitude vs. Time at 44100 Hz Sampling Rate");
+xlabel("Time (s)");
+ylabel("Amplitude");
 % play(recObj);
 
 % Without changing the timeAxis manually, the current grpah is plotted
@@ -45,7 +47,9 @@ sampleSpeech_downsampled = getaudiodata(recObj_downsampled);
 timeAxis_downsampled = (0:length(sampleSpeech_downsampled)-1)*3 / length(sampleSpeech_downsampled);
 figure(2)
 plot(timeAxis_downsampled, sampleSpeech_downsampled);
-title("Sample Speech Downsampled");
+title("Plot of Audio Recording Amplitude vs. Time at 1000 Hz Sampling Rate");
+xlabel("Time (s)");
+ylabel("Amplitude");
 % play(recObj_downsampled);
 
 % The downsampled frequency sounds more muffled and quiet than the original
