@@ -79,14 +79,27 @@ load("output\partB_env.mat") % Use prerecorded files
 
 %% 2. Compute the FFt of audio recording
 speechFFT = fft(sampleSpeech);
-freqAxis = (0:length(sampleSpeech)-1) * 44100 / length(sampleSpeech);
 figure(3)
-plot(freqAxis, speechFFT);
+plot(speechFFT);
+title("Plot of Fourier Transform of Audio Recording vs. Frequency")
+xlabel("Magnitude of real component")
+ylabel("Magnitude of imaginary component")
 
-%% 3. Plot only the real component of FFT
+%% 3. Plot real and imaginary component of FFT
 realFFT = real(speechFFT);
+imaginaryFFT = imag(speechFFT);
+freqAxis = (0:length(sampleSpeech)-1) * 44100 / length(sampleSpeech);
 figure(4)
-plot(normalize(freqAxis, 'range'), realFFT);
+plot(freqAxis, realFFT);
+title("Plot of Real Component of Fourier Transform of Audio Recording vs. Frequency")
+xlabel("Frequency (Hz)")
+ylabel("Amplitude")
+
+figure(5)
+plot(freqAxis, imaginaryFFT);
+title("Plot of Imaginary Component of Fourier Transform of Audio Recording vs. Frequency")
+xlabel("Frequency (Hz)")
+ylabel("Amplitude")
 
 %% Part D
 
