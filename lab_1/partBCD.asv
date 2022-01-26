@@ -121,37 +121,24 @@ xlabel("Frequency (Hz)")
 ylabel("Amplitude")
     
 % Play noisy sound
-% sound(noisy, 44100);
+sound(noisy, 44100);
 
 %% Designing a low pass FIR filter
 
-new_filter = designfilt('lowpassfir','PassbandFrequency',545, ...
-                          'StopbandFrequency',1200, ...
-                          'PassbandRipple',1, ...
-                          'StopbandAttenuation',60, ...
-                          'SampleRate',44100);
-fvtool(lp_filter)
-
-filtered_sample = filter(new_filter, noisy);
-sound(filtered_sample, 44100);
-fft_filtered_sample = real(fft(filtered_sample));
-
+% Create normalized plot to determine band frequencies
 figure(7)
-plot(freqAxis, real(speechFFT))
-title("Plot of Original Signal against Frequency")
-xlabel("Frequency (Hz)")
-ylabel("Amplitude")
-
-figure(8)
-plot(freqAxis, real(noisy_fft))
+plot(normalize(freqAxis, 'range'), speechFFT)
 title("Plot of Noisy Signal against Frequency")
 xlabel("Frequency (Hz)")
 ylabel("Amplitude")
 
-figure(9)
-plot(freqAxis, fft_filtered_sample)
-title("Plot of Filtered Sample against Frequency")
-xlabel("Frequency (Hz)")
-ylabel("Amplitude")
+lp_filter = designfilt('lowpassfir','PassbandFrequency',0.05, ...
+                       'StopbandFrequency',0.2, ...
+                       'PassbandRipple',1, ...
+                       'StopbandAttenuation',95);
+% fvtool(lp_filter)
 
+%%
+
+filtered_sample = filter(lp_filter, noisy);
 
