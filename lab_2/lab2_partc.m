@@ -35,7 +35,7 @@ Fs = 2000;  % Sampling Frequency
 
 N   = 4;    % Order
 Fc1 = 50;  % First Cutoff Frequency
-Fc2 = 150;  % Second Cutoff Frequency
+Fc2 = 185;  % Second Cutoff Frequency
 
 % Construct an FDESIGN object and call its BUTTER method.
 h  = fdesign.bandpass('N,F3dB1,F3dB2', N, Fc1, Fc2, Fs);
@@ -43,14 +43,23 @@ Hd = design(h, 'butter');
 
 filtered_raw = filter(Hd, raw.BICEP);
 
-figure(4)
-timeAxis = (0:length(Hd)-1)*30/length(Hd);
+figure(3)
+timeAxis = (0:length(filtered_raw)-1)*25/length(filtered_raw);
 plot(timeAxis, filtered_raw)
 xlabel("Time (s)");
 ylabel("Amplitude");
 title("Raw Signal after Band Pass Filter against Time")
 
+%% Remove DC offset and perform a full-wave rectification
+rectified = abs(filtered_raw - mean(filtered_raw));
+figure(4)
+plot(timeAxis, rectified);
+ylim([0 0.003])
+xlabel("Time (s)");
+ylabel("Amplitude");
+title("Rectified Filtered Signal against Time")
+
 %% Original plots (for visualization purposes)
 
-plot(raw.ElapsedTime, raw.BICEP)
-plot(filtered.ElapsedTime, filtered.BICEP)
+% plot(raw.ElapsedTime, raw.BICEP)
+% plot(filtered.ElapsedTime, filtered.BICEP)
