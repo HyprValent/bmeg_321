@@ -112,6 +112,8 @@ xlabel("Time (s)");
 ylabel("Amplitude");
 title("Cumulative Integral of Filtered Signal against Time")
 
+emg_integral_scalar = trapz(timeAxis, filtered_raw);
+
 %% EMG signal normalization
 normalized = (envelope_upper/0.001)*100;
 figure(7)
