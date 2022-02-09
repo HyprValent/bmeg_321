@@ -123,5 +123,5 @@ title("Normalized envelope")
 
 %% Original plots (for visualization purposes)
 
-plot(raw.ElapsedTime, raw.BICEP)
+% plot(raw.ElapsedTime, raw.BICEP)
 % plot(filtered.ElapsedTime, filtered.BICEP)
