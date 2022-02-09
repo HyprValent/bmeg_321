@@ -113,15 +113,15 @@ ylabel("Amplitude");
 title("Cumulative Integral of Filtered Signal against Time")
 
 %% EMG signal normalization
-normalized = (envelope_upper/0.001)*100;
+normalized = (envelope_upper/0.00255)*100;
 figure(7)
-plot(timeAxis, normalized, 'color', 'red');
+plot(timeAxis, norma)
 % ylim([0 0.0035])
 xlabel("Time (s)");
 ylabel("Amplitude");
-title("Normalized envelope")
+title("Cumulative Integral of Filtered Signal against Time")
 
 %% Original plots (for visualization purposes)
 
-plot(raw.ElapsedTime, raw.BICEP)
+% plot(raw.ElapsedTime, raw.BICEP)
 % plot(filtered.ElapsedTime, filtered.BICEP)
